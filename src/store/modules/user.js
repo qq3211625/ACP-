@@ -25,7 +25,14 @@ const state = {
 
     registeredAddress:'',      //企业地址
     scopeOfBusiness:'',        //经营范围
-    status: 0,                //0：待处理 1：成功 2：失败
+    status: '',                //0：待处理 1：成功 2：失败
+  },
+  enterpriseAdmin:{
+    adminName: '',      //管理员名称
+    adminPhone: '',     //管理员手机号
+    adminNumber: '',    //证件号
+    frontImage: '',     //身份证正面照,
+    backImage: '',      //身份证背面照
   },
 }
 
@@ -45,7 +52,7 @@ const mutations = {
   //代注册1
   business (state,{enterprise}) {
     //保存用户代理注册的数据
-    state.enterprise.accountName=enterprise.accountName;                   //企业开户名称
+      state.enterprise.accountName=enterprise.accountName;                   //企业开户名称
       state.enterprise.acn=enterprise.acn;                                //企业注册号
       state.enterprise.businessAddress=enterprise.businessAddress;             //企业办公地址
       state.enterprise.corporateBank=enterprise.corporateBank;            //企业开户银行
@@ -58,7 +65,17 @@ const mutations = {
       state.enterprise.registeredAddress=enterprise.registeredAddress;            //企业地址
       state.enterprise.scopeOfBusiness=enterprise.scopeOfBusiness;              //经营范围
       state.enterprise.status=enterprise.status;             //0：待处理 1：成功 2：失败
-  }
+  },
+
+  //代注册2
+  admin (state,{enterpriseAdmin}) {
+    //保存用户代理注册的数据
+    state.enterpriseAdmin.adminName=enterpriseAdmin.adminName;                  //管理员名称
+    state.enterpriseAdmin.adminPhone=enterpriseAdmin.adminPhone;                  //管理员手机号
+    state.enterpriseAdmin.adminNumber=enterpriseAdmin.adminNumber;               //证件号
+    state.enterpriseAdmin.frontImage=enterpriseAdmin.frontImage;                  //身份证正面照
+    state.enterpriseAdmin.backImage=enterpriseAdmin.backImage;                 //身份证背面照
+  },
 }
 
 const actions = {

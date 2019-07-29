@@ -26,7 +26,8 @@ export const checkAgentVo = ({email, firstName, invitationCode, lastName}) => aj
 // http://192.168.50.100:8301/api/agent/register
 export const reqRegister = ({cardCvv, cardName, cardNumber, email,expMonth,expYear,firstName,invitationCode,lastName,password,phone}) => ajax(BASE + `/agent/register` ,{cardCvv, cardName, cardNumber, email,expMonth,expYear,firstName,invitationCode,lastName,password,phone},"POST");
 
-
+// /api/agent/uploadAvatar  上传图片
+export const uploadAvatar = (file , reqConfig) => ajax(BASE + `/agent/uploadAvatar` ,file ,"POST", reqConfig);
 
 
 

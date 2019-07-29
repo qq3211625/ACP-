@@ -93,9 +93,9 @@
                     <i class="el-icon-delete delI" @click="clickDelImg2"></i>
                 </div>
                 <img ref="inputerbb" src="" height="300" alt="">
-                  <!--<label for="avatar2" class="avatarbox2"></label>-->
-                  <!--<img :src="defaultimg0" alt="" :onerror="custs" v-show="!loadingImgs[1]">-->
-                  <!--<span class="el-icon-loading loading" v-show="loadingImgs[1]"></span>-->
+                <!--<label for="avatar2" class="avatarbox2"></label>-->
+                <!--<img :src="defaultimg0" alt="" :onerror="custs" v-show="!loadingImgs[1]">-->
+                <!--<span class="el-icon-loading loading" v-show="loadingImgs[1]"></span>-->
               </span>
               <input type="file" name="avata2r" id="avatar2"  @change="fileImage2"  accept=".jpg .jpeg .gif .png">
               <p class="accountName">上传联系人身份证反面或者护照，驾照含联系人姓名的页面照片或者扫<br>描件<br>格式要求：支出.jpg .jpeg . gif .png格式照片，大小不超过5M。</p>
@@ -210,14 +210,14 @@
         // }
       },
       async fileImage2 (e) {
-          // 点击上传图片chenge事件  获取得到file 对象
-          let file = e.target.files[0];
-          let fileArr =e.target.files;
-          // 限制上传图片的大小
-          if(file.size > 1024 * 1024 * 5) {
-            this.$message.error('图片大小不能超过 5MB!');
-            return false;
-          }
+        // 点击上传图片chenge事件  获取得到file 对象
+        let file = e.target.files[0];
+        let fileArr =e.target.files;
+        // 限制上传图片的大小
+        if(file.size > 1024 * 1024 * 5) {
+          this.$message.error('图片大小不能超过 5MB!');
+          return false;
+        }
 
         console.log(fileArr.length)
 
@@ -230,31 +230,31 @@
             return
           }
         }
-          //上传图片
-          let param = new FormData();
-          // console.log(param)
-          param.append("file", file);
+        //上传图片
+        let param = new FormData();
+        // console.log(param)
+        param.append("file", file);
 
-          // console.log('param', param)
-          const reqConfig = {
-            headers: { "Content-Type": "multipart/form-data" }
-          }
+        // console.log('param', param)
+        const reqConfig = {
+          headers: { "Content-Type": "multipart/form-data" }
+        }
 
-          const result =await uploadAvatar( param , reqConfig)
-          if(result.code == 0){
-            this.backImage = result.data
-          }else{
-            this.backImage = ''
-          }
+        const result =await uploadAvatar( param , reqConfig)
+        if(result.code == 0){
+          this.backImage = result.data
+        }else{
+          this.backImage = ''
+        }
         // console.log(result)
-          // 创建url
-          var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
-          this.$refs.inputerbb.src = imgUrl;
-          // 更改img url 以后释放 url
-          // this.$refs.inputerbb.onload = function() {  //图片加载完成触发回调
-            // console.log('图片加载成功')
-            // URL.revokeObjectURL(imgUrl)
-          // }
+        // 创建url
+        var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
+        this.$refs.inputerbb.src = imgUrl;
+        // 更改img url 以后释放 url
+        // this.$refs.inputerbb.onload = function() {  //图片加载完成触发回调
+        // console.log('图片加载成功')
+        // URL.revokeObjectURL(imgUrl)
+        // }
       },
       next () {
 
@@ -456,8 +456,8 @@
     left: 0
   }
   .imgup:hover .delImg{
-     display: block;
-   }
+    display: block;
+  }
 
   .imgup .delI{
     cursor: pointer;

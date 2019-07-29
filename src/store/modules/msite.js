@@ -8,11 +8,11 @@ import {
 // import {reqAddress, reqCategory, reqshops} from "../../api";
 
 const state = {
-  latitude: 40.10038,
-  longitude: 116.36867,
-  address: {}, //当前地址对象
-  categorys: [], //商品分类数组
-  shops: [],//商家数组
+  // latitude: 40.10038,
+  // longitude: 116.36867,
+  // address: {}, //当前地址对象
+  // categorys: [], //商品分类数组
+  // shops: [],//商家数组
 }
 
 const mutations = {

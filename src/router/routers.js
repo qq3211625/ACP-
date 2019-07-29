@@ -7,6 +7,7 @@ import ApplyApp from '../pages/Enroll/ApplyApp'
 import ApplyID from '../pages/Enroll/ApplyID'
 import Business from '../pages/registeredAgent/Business'
 import Admin from '../pages/registeredAgent/Admin'
+import Basics from '../pages/registeredAgent/Basics'
 
 export default [
   {
@@ -52,8 +53,12 @@ export default [
     component: Admin,
   },
   {
+    path: '/basics',
+    component: Basics,
+  },
+  {
     //自动跳转路由
     path:'/',
-    redirect: '/admin'
+    redirect: '/basics'
   }
 ]

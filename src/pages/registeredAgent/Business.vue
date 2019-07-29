@@ -97,8 +97,8 @@
               <p class="inputLabel"><i class="arm">* </i>Scope of Business/</p>
               <p>经营范围</p>
             </div>
-            <div class="namesComtent">
-              <el-input v-model="scopeOfBusiness" placeholder=" " ></el-input>
+            <div class="namesComtent scopeOfBusiness">
+              <el-input type="textarea" v-model="scopeOfBusiness" placeholder=" " ></el-input>
               <p class="namesComtentText">请填写企业的经营范围</p>
             </div>
           </div>
@@ -150,7 +150,6 @@
 
 <script>
   import MassgeTop from '../../components/MassgeTop/MassgeTop'
-  import { reqLogin } from '@/api/index.js'; // 登录请求
   // import {mapActions, mapState} from 'vuex'
 
   export default {
@@ -293,7 +292,7 @@
       font-size: 20px;
     }
     .steps{
-      margin: 20px 0 5px 0;
+      margin: 40px 0 30px 0;
     }
   }
   .leftBox {
@@ -391,5 +390,9 @@
     display: inline-block;
     margin: auto;
     width: 120px;
+  }
+  .scopeOfBusiness .el-textarea__inner{
+    height: 150px;
+    min-width: 150px;
   }
 </style>
