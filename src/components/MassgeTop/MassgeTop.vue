@@ -43,7 +43,7 @@ export default {
     width: 100%;
     overflow: hidden;
     .LOGO {
-      background-color: pink;
+      /*background-color: pink;*/
       width: 150px;
       height: 100%;
       overflow: hidden;
@@ -58,7 +58,7 @@ export default {
       }
     }
     .relation{
-      background-color: pink;
+      /*background-color: pink;*/
       height: 100%;
       display: inline-block;
       overflow: hidden;
@@ -72,7 +72,7 @@ export default {
       }
     }
     .language{
-      background-color: pink;
+      /*background-color: pink;*/
       height: 100%;
       width: 200px;
       float: right;

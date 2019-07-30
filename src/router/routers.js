@@ -8,6 +8,12 @@ import ApplyID from '../pages/Enroll/ApplyID'
 import Business from '../pages/registeredAgent/Business'
 import Admin from '../pages/registeredAgent/Admin'
 import Basics from '../pages/registeredAgent/Basics'
+import Defrayment from '../pages/registeredAgent/Defrayment'
+import Submit from '../pages/registeredAgent/Submit'
+//忘记密码模块
+import Forget from '../pages/Login/Forget'
+import Change from '../pages/Login/Change'
+import Accomplish from '../pages/Login/Accomplish'
 
 export default [
   {
@@ -57,8 +63,29 @@ export default [
     component: Basics,
   },
   {
+    path: '/defrayment',
+    component: Defrayment,
+  },
+  {
+    path: '/submit',
+    component: Submit,
+  },
+  //忘记密码
+  {
+    path: '/forget',
+    component: Forget,
+  },
+  {
+    path: '/change',
+    component: Change,
+  },
+  {
+    path: '/accomplish',
+    component: Accomplish,
+  },
+  {
     //自动跳转路由
     path:'/',
-    redirect: '/basics'
+    redirect: '/change'
   }
 ]

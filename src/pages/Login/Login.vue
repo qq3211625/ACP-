@@ -26,7 +26,7 @@
                   记住密码
                 </p>
               </div>
-              <div ><a href="javascript:" style="color: #797979;">忘记密码？</a></div>
+              <div ><a href="javascript:" style="color: #797979;" @click="$router.push('/change')">忘记密码？</a></div>
             </div>
             <el-form-item>
               <el-button type="primary" @click="submitLogin" class="submit_btn">登陆</el-button>
@@ -89,7 +89,7 @@
 <style lang="less" scoped>
 	@import '../../style/mixin.less';
 	.login_page{
-		background-color: #324057;
+		background-color: #F2F3F2;
     .form_contianer{
       .wh(238px, 256px);
       .ctp(238px, 256px);

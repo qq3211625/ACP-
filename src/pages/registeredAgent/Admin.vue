@@ -74,7 +74,7 @@
                 <div class="delImg">
                     <i class="el-icon-delete delI" @click="clickDelImg1"></i>
                 </div>
-                <img ref="inputeraa" src="" height="300" alt="">
+                <img ref="inputeraa" :src="frontImage" height="300" alt="">
               </span>
               <input type="file" name="avata1r" id="avatar1" @change="fileImage1" accept=".jpg .jpeg .gif .png">
               <p class="namesComtentText">上传联系人身份证正面或者护照，驾照含联系人姓名的页面照片或者扫<br>描件<br>格式要求：支出.jpg .jpeg . gif .png格式照片，大小不超过5M。</p>
@@ -92,7 +92,7 @@
                 <div class="delImg">
                     <i class="el-icon-delete delI" @click="clickDelImg2"></i>
                 </div>
-                <img ref="inputerbb" src="" height="300" alt="">
+                <img ref="inputerbb" :src="backImage" height="300" alt="">
                   <!--<label for="avatar2" class="avatarbox2"></label>-->
                   <!--<img :src="defaultimg0" alt="" :onerror="custs" v-show="!loadingImgs[1]">-->
                   <!--<span class="el-icon-loading loading" v-show="loadingImgs[1]"></span>-->
@@ -138,21 +138,35 @@
       MassgeTop
     },
     methods: {
-      changeCount (adminPhone) {
-        var reg=/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
-        if (!reg.test(this.adminPhone)){   //管理员手机号
-          this.$message.error('2错了哦，请输入正确的手机号');
-          this.isShowCode= true  //是否显示验证按钮
+      changeCount () { //验证管理员手机号码(澳洲)
+        if(this.adminPhone.slice(0,2)=='04'&&this.adminPhone.length==10){
+          this.isShowCode= false //显示验证按钮
+        }else if(this.adminPhone.slice(0,1)=='4'&&this.adminPhone.length==9){
+          this.isShowCode= false //显示验证按钮
+        }else if(!this.adminPhone){
+          this.$message.error('Incomplete Information');
+          this.isShowCode= true  //不显示验证按钮
+          return
+        }else{
+          this.$message.error('Contact Number Incorrect Input Format');
+          this.isShowCode= true  //不显示验证按钮
           return
         }
-        this.isShowCode= false //是否显示验证按钮
+
+        // var reg=/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
+        // if (!reg.test(this.adminPhone)){   //管理员手机号
+        //   this.$message.error('2错了哦，请输入正确的手机号');
+        //   this.isShowCode= true  //是否显示验证按钮
+        //   return
+        // }
+        // this.isShowCode= false //是否显示验证按钮
       },
 
       async clickCode () {   //请求手机验证码
         const phone = this.adminPhone
         const result =await reqCode({ //请求接口
           phone,
-          type: 1
+          type: 3  //代注册小程序
         });
         console.log(result)
         if(result.code == 0){
@@ -161,6 +175,8 @@
           this.$message({
             message: '获取成功',type: 'success'
           });
+        }else{
+          this.$message.error(result.message);
         }
       },
       async fileImage1 (e) {      // 点击上传图片chenge事件
@@ -199,15 +215,6 @@
           this.frontImage = ''
         }
 
-        // console.log(result)
-        // 创建url
-        var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
-        this.$refs.inputeraa.src = imgUrl;
-        // 更改img url 以后释放 url
-        // this.$refs.inputeraa.onload = function() {  //图片加载完成触发回调
-        // console.log('图片加载成功')
-        // URL.revokeObjectURL(imgUrl)
-        // }
       },
       async fileImage2 (e) {
           // 点击上传图片chenge事件  获取得到file 对象
@@ -246,15 +253,7 @@
           }else{
             this.backImage = ''
           }
-        // console.log(result)
-          // 创建url
-          var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
-          this.$refs.inputerbb.src = imgUrl;
-          // 更改img url 以后释放 url
-          // this.$refs.inputerbb.onload = function() {  //图片加载完成触发回调
-            // console.log('图片加载成功')
-            // URL.revokeObjectURL(imgUrl)
-          // }
+
       },
       next () {
 

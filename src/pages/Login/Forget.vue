@@ -5,17 +5,10 @@
       <section class="form_contianer" >
         <div class="welcome">
           <p></p>
-          <p>新用户注册</p>
+          <p>忘记密码</p>
           <p></p>
         </div>
         <el-form >
-          <el-form-item prop="phone" style="margin-bottom: 18px">
-            <el-input @blur.prevent="changeCount()" v-model="phone" placeholder="请输入手机号"><span>dsfsf</span></el-input>
-          </el-form-item>
-          <el-form-item prop="code" style="margin-bottom: 18px;" >
-            <el-input @blur.prevent="changeCode()"  v-model="code" type="text" placeholder="短信验证码" style="width: 112px;margin-right: 9px; dispaly:inline-block"></el-input>
-            <el-button :disabled="isShowCode" type="primary" @click='clickCode' >获取验证码</el-button>
-          </el-form-item>
           <el-form-item prop="pwd" style="margin-bottom:18px; ">
             <el-input @blur.prevent="changePwds()" v-model="pwd" type="text" placeholder="请输入8-16位的密码" ></el-input>
           </el-form-item>
@@ -26,7 +19,6 @@
             <el-button :disabled="isShowNext" type="primary"  class="submit_btn" @click="toNext">下一步</el-button>
           </el-form-item>
         </el-form>
-        <p class="tip">已有账号？现在就<a href="javascript:" @click="$router.push('/login')">登录</a></p>
       </section>
     </transition>
   </div>
@@ -34,17 +26,13 @@
 <script>
   import MassgeTop from '../../components/MassgeTop/MassgeTop'
   import { reqCode } from '@/api/index.js';
-  import { verifyCode } from '@/api/index.js';
+  import { retrievePassword } from '@/api/index.js';
   export default {
     name: "Enroll",
     data(){
       return {
-        phone:'',   //手机号
-        code:'',    //验证码
-        reqCode1:'',//后台返回验证码
         pwd:'',     //用户密码
         confirmPwd:'',//用户第二次密码
-        isShowCode: true, //是否显示验证按钮
         isShowNext: true, //是否显示下一步按钮
       }
     },
@@ -52,54 +40,9 @@
       MassgeTop
     },
     methods:{
-      changeCount() {   //input 失去焦点校验手机号(澳洲)
-        if(this.phone.slice(0,2)=='04'&&this.phone.length==10){
-          this.isShowCode= false //显示验证按钮
-        }else if(this.phone.slice(0,1)=='4'&&this.phone.length==9){
-          this.isShowCode= false //显示验证按钮
-        }else if(!this.phone){
-          this.$message.error('Incomplete Information');
-          this.isShowCode= true  //不显示验证按钮
-          return
-        }else{
-          this.$message.error('Contact Number Incorrect Input Format');
-          this.isShowCode= true  //不显示验证按钮
-          return
-        }
-
-        // var reg=/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
-        // if (reg.test(phone)){
-        //   this.isShowCode = false;
-        // }else{
-        //   this.$message.error('请输入正确的手机号');
-        // }
-      },
-      async clickCode () {
-        const phone = this.phone
-        const reqCode1 =await reqCode({ //请求接口
-          phone,
-          type: 1
-        });
-        this.reqCode1 = reqCode1.data;  //没有接口  模拟成功
-        console.log(this.reqCode1)
-      },
-      changeCode () {
-        if(!this.code){
-          this.$message.error('请输入验证码');
-        }else if(this.reqCode1 != this.code){
-          console.log(this.reqCode1,this.code)
-          this.$message.error('验证码错误');
-        }else{
-          this.$message({
-            message: '获取成功',
-            type: 'success'
-          });
-          console.log(this.reqCode1,this.code)
-        }
-      },
       changePwd () {
         const regPwd=/^([0-9]|[a-zA-Z]){8,16}$/;
-         if(this.pwd !== this.confirmPwd) {
+        if(this.pwd !== this.confirmPwd) {
           this.isShowNext = true
           console.log(this.pwd,this.confirmPwd)
           this.$message.error('两次输入的密码不一致');
@@ -127,23 +70,14 @@
       },
       async toNext () {
         //检验手机验证码请求
-        const verify = await verifyCode({
-          code : this.code,        //验证码
-          phone : this.phone,       //手机号
-          type : 1
+        const result = await retrievePassword({
+          password : this.pwd,        //验证码
+          phone : this.$route.query.id,       //手机号 在路由获取
         })
-        console.log(verify)
-        //将用户手机号,和密码保存到vuex中
-        let message1 = {
-          phone : this.phone,       //手机号
-          pwd : this.pwd,         //用户密码
-        }
-
-        if (verify.code == 0){
+        console.log(result)
+        if (result.code == 0){
           //跳转路由
-          console.log(message1)
-          this.$store.commit('message',{message1})//保存用户信息
-          this.$router.push('/enrolluser')
+          this.$router.push('/accomplish')
         }
       },
     },
@@ -157,8 +91,8 @@
     background-color: #324057;
   }
   .form_contianer{
-    .wh(238px, 340px);
-    .ctp(238px, 340px);
+    .wh(258px, 200px);
+    .ctp(258px, 200px);
     padding: 25px;
     border-radius: 5px;
     text-align: center;

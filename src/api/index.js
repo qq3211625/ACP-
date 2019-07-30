@@ -5,6 +5,7 @@
 函数的返回值是promise
  */
 import ajax from './ajax'
+import {ajax1} from './ajax'
 
 // const BASE = 'http://localhost:5000'
 const BASE = 'http://192.168.50.100:8301/api'
@@ -29,8 +30,11 @@ export const reqRegister = ({cardCvv, cardName, cardNumber, email,expMonth,expYe
 // /api/agent/uploadAvatar  上传图片
 export const uploadAvatar = (file , reqConfig) => ajax(BASE + `/agent/uploadAvatar` ,file ,"POST", reqConfig);
 
+// /api/enterprise/insertEnterprise  代注册
+export const enterpriseVo = ({enterprise, enterpriseAdmin, enterpriseInfo, enterprisePay, phone}) => ajax1(BASE + `/enterprise/insertEnterprise` ,{enterprise, enterpriseAdmin, enterpriseInfo, enterprisePay, phone},"POST");
 
-
+//api/agent/retrievePassword找回密码
+export const retrievePassword = ({password, phone}) => ajax(BASE + `/agent/retrievePassword` ,{password, phone},"POST");
 
 
 

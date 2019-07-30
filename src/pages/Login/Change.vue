@@ -5,7 +5,7 @@
       <section class="form_contianer" >
         <div class="welcome">
           <p></p>
-          <p>新用户注册</p>
+          <p>忘记密码</p>
           <p></p>
         </div>
         <el-form >
@@ -16,17 +16,10 @@
             <el-input @blur.prevent="changeCode()"  v-model="code" type="text" placeholder="短信验证码" style="width: 112px;margin-right: 9px; dispaly:inline-block"></el-input>
             <el-button :disabled="isShowCode" type="primary" @click='clickCode' >获取验证码</el-button>
           </el-form-item>
-          <el-form-item prop="pwd" style="margin-bottom:18px; ">
-            <el-input @blur.prevent="changePwds()" v-model="pwd" type="text" placeholder="请输入8-16位的密码" ></el-input>
-          </el-form-item>
-          <el-form-item prop="confirmPwd" style="margin-bottom: 18px">
-            <el-input @blur.prevent="changePwd()" v-model="confirmPwd" type="text" placeholder="请确认密码" ></el-input>
-          </el-form-item>
           <el-form-item>
             <el-button :disabled="isShowNext" type="primary"  class="submit_btn" @click="toNext">下一步</el-button>
           </el-form-item>
         </el-form>
-        <p class="tip">已有账号？现在就<a href="javascript:" @click="$router.push('/login')">登录</a></p>
       </section>
     </transition>
   </div>
@@ -42,8 +35,7 @@
         phone:'',   //手机号
         code:'',    //验证码
         reqCode1:'',//后台返回验证码
-        pwd:'',     //用户密码
-        confirmPwd:'',//用户第二次密码
+
         isShowCode: true, //是否显示验证按钮
         isShowNext: true, //是否显示下一步按钮
       }
@@ -78,7 +70,7 @@
         const phone = this.phone
         const reqCode1 =await reqCode({ //请求接口
           phone,
-          type: 1
+          type: 2
         });
         this.reqCode1 = reqCode1.data;  //没有接口  模拟成功
         console.log(this.reqCode1)
@@ -86,43 +78,17 @@
       changeCode () {
         if(!this.code){
           this.$message.error('请输入验证码');
+          this.isShowNext = true;
         }else if(this.reqCode1 != this.code){
-          console.log(this.reqCode1,this.code)
           this.$message.error('验证码错误');
+          this.isShowNext = true;
         }else{
           this.$message({
             message: '获取成功',
             type: 'success'
           });
           console.log(this.reqCode1,this.code)
-        }
-      },
-      changePwd () {
-        const regPwd=/^([0-9]|[a-zA-Z]){8,16}$/;
-         if(this.pwd !== this.confirmPwd) {
-          this.isShowNext = true
-          console.log(this.pwd,this.confirmPwd)
-          this.$message.error('两次输入的密码不一致');
-          return
-        }else if(!regPwd.test(this.confirmPwd)){
-          this.$message.error('请输入8-16的密码');
-          this.isShowNext = true
-        }else if (!this.paw && !this.confirmPwd){
-          this.$message.error('请输入密码');
-          this.isShowNext = true
-        }else{
           this.isShowNext = false;
-        }
-      },
-      changePwds() {
-        const regPwd=/^([0-9]|[a-zA-Z]){8,16}$/;
-        if(!regPwd.test(this.pwd)){
-          this.$message.error('请输入8-16的密码');
-          this.isShowNext = true
-        }else if(this.pwd !== this.confirmPwd){
-          this.isShowNext = true
-        }else if(this.pwd === this.confirmPwd){
-          this.isShowNext = false
         }
       },
       async toNext () {
@@ -130,20 +96,19 @@
         const verify = await verifyCode({
           code : this.code,        //验证码
           phone : this.phone,       //手机号
-          type : 1
+          type : 2
         })
         console.log(verify)
-        //将用户手机号,和密码保存到vuex中
-        let message1 = {
-          phone : this.phone,       //手机号
-          pwd : this.pwd,         //用户密码
-        }
+        //将用户手机号,保存到vuex中
+
 
         if (verify.code == 0){
+          let message1 = {
+            phone : this.phone,       //手机号
+          }
+
           //跳转路由
-          console.log(message1)
-          this.$store.commit('message',{message1})//保存用户信息
-          this.$router.push('/enrolluser')
+          this.$router.push(`/forget?id=${this.phone}`)//保存用户信息
         }
       },
     },
@@ -157,8 +122,8 @@
     background-color: #324057;
   }
   .form_contianer{
-    .wh(238px, 340px);
-    .ctp(238px, 340px);
+    .wh(238px, 215px);
+    .ctp(238px, 215px);
     padding: 25px;
     border-radius: 5px;
     text-align: center;

@@ -4,14 +4,14 @@ import {USE_DATA} from "../mutation-types";
 // import {deleteUser, reqUser} from "../../api";
 
 const state = {
-  phone: '',  //用户数据
+  phone: '',  //用户手机号
   pwd: '',
   email: '',      //用户邮箱
   firstName: '',  //用户名字
   lastName: '',   //用户姓
   invitationCode: '',  //邀请码
 
-  // 储存用户代注册信息
+  // 储存用户代注册1信息
   enterprise: {
     accountName: '',              //企业开户名称
     acn: '',                       //企业注册号
@@ -27,6 +27,7 @@ const state = {
     scopeOfBusiness:'',        //经营范围
     status: '',                //0：待处理 1：成功 2：失败
   },
+  // 储存用户代注册2信息
   enterpriseAdmin:{
     adminName: '',      //管理员名称
     adminPhone: '',     //管理员手机号
@@ -34,6 +35,11 @@ const state = {
     frontImage: '',     //身份证正面照,
     backImage: '',      //身份证背面照
   },
+  // 储存用户代注册3信息
+  enterpriseInfo:{
+    enterpriseImage: '',//《企业注册证》或《商业许可证书》,
+    evidenceImage: '',  //其他证明材料 多张照片用,隔开
+  }
 }
 
 const mutations = {
@@ -75,6 +81,12 @@ const mutations = {
     state.enterpriseAdmin.adminNumber=enterpriseAdmin.adminNumber;               //证件号
     state.enterpriseAdmin.frontImage=enterpriseAdmin.frontImage;                  //身份证正面照
     state.enterpriseAdmin.backImage=enterpriseAdmin.backImage;                 //身份证背面照
+  },
+  //代注册3
+  basics (state,{enterpriseInfo}) {
+    //保存用户代理注册的数据
+    state.enterpriseInfo.enterpriseImage=enterpriseInfo.enterpriseImage;           //《企业注册证》或《商业许可证书》
+    state.enterpriseInfo.evidenceImage=enterpriseInfo.evidenceImage;               //其他证明材料 多张照片用,隔开
   },
 }
 

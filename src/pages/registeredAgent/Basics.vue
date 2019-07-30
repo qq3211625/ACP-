@@ -8,7 +8,7 @@
         <!--<i class="el-icon-warning-outline contentIcon"></i>-->
         <!--<p>这些信息将由我们帮您提交至微信进行认证</p>-->
       </div>
-      <el-steps class="steps" :active="2" align-center >
+      <el-steps class="steps" :active="3" align-center >
         <el-step title="企业资料" description=""></el-step>
         <el-step title="管理员信息" description=""></el-step>
         <el-step title="企业基本资料" description=""></el-step>
@@ -22,51 +22,6 @@
         <div class="rider_name">
           <div class="names">
             <div class="namesLeft">
-              <p class="inputLabel"><i class="arm">* </i>管理员姓名</p>
-            </div>
-            <div class="namesComtent">
-              <el-input v-model="adminName" placeholder=" " ></el-input>
-              <p class="namesComtentText">请填写该小程序的姓名，与申请公函上的管理员一致，认证审核过程将与该管理员联系。</p>
-            </div>
-          </div>
-        </div>
-        <div class="rider_name">
-          <div class="names">
-            <div class="namesLeft">
-              <p class="inputLabel"><i class="arm">* </i>管理员手机号码</p>
-            </div>
-            <div class="namesComtent">
-              <el-input @blur.prevent="changeCount(adminPhone)" style="min-width: 380px; width: 380px" v-model="adminPhone" placeholder=" " ></el-input>
-              <el-button style="min-width: 120px; margin-left: 10px" class="btn" type="primary" @click="clickCode" :disabled="isShowCode">获取验证码</el-button>
-              <p class="namesComtentText">请填写管理员的手机号码，认证审核过程将与该管理员联系，验证码有效期10分钟。</p>
-            </div>
-          </div>
-        </div>
-        <div class="rider_name">
-          <div class="names">
-            <div class="namesLeft">
-              <p class="inputLabel"><i class="arm">* </i>短信验证码</p>
-            </div>
-            <div class="namesComtent namesStyle">
-              <el-input v-model="code" placeholder=" " ></el-input>
-            </div>
-          </div>
-        </div>
-        <div class="rider_name">
-          <div class="names">
-            <div class="namesLeft">
-              <p class="inputLabel"><i class="arm">* </i>管理员证件号码</p>
-            </div>
-            <div class="namesComtent">
-              <el-input style="min-width: 340px; width: 340px" v-model="adminNumber" placeholder=" " ></el-input>
-              <p class="namesComtentText">护照或者驾驶证的证件号码</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rider_name">
-          <div class="names">
-            <div class="namesLeft">
               <p class="inputLabel"><i class="arm">* </i>管理员身份证件(正面)</p>
             </div>
             <div class="namesComtent">
@@ -74,7 +29,7 @@
                 <div class="delImg">
                     <i class="el-icon-delete delI" @click="clickDelImg1"></i>
                 </div>
-                <img ref="inputeraa" src="" height="300" alt="">
+                <img ref="inputeraa" :src="enterpriseImage" height="300" alt="">
               </span>
               <input type="file" name="avata1r" id="avatar1" @change="fileImage1" accept=".jpg .jpeg .gif .png">
               <p class="namesComtentText">上传联系人身份证正面或者护照，驾照含联系人姓名的页面照片或者扫<br>描件<br>格式要求：支出.jpg .jpeg . gif .png格式照片，大小不超过5M。</p>
@@ -92,7 +47,7 @@
                 <div class="delImg">
                     <i class="el-icon-delete delI" @click="clickDelImg2"></i>
                 </div>
-                <img ref="inputerbb" src="" height="300" alt="">
+                <img ref="inputerbb" :src="evidenceImage" height="300" alt="">
                 <!--<label for="avatar2" class="avatarbox2"></label>-->
                 <!--<img :src="defaultimg0" alt="" :onerror="custs" v-show="!loadingImgs[1]">-->
                 <!--<span class="el-icon-loading loading" v-show="loadingImgs[1]"></span>-->
@@ -103,7 +58,7 @@
           </div>
         </div>
 
-        <div class="nextBtn">
+        <div class="nextBtn basics">
           <el-button class="btn"  @click="$router.go(-1) ">上一步</el-button>
           <el-button class="btn" type="primary" @click="next">下一步</el-button>
         </div>
@@ -122,47 +77,14 @@
   export default {
     data(){
       return {
-        adminName: '', //管理员名称
-        adminNumber: '', //证件号
-        adminPhone: '', //管理员手机号
-
-        code: '',        //验证码
-        isShowCode: true, //是否显示验证按钮
-
-        backImage: '',  //身份证背面照
-        frontImage: '',  //身份证正面照
-        resultCode: '',   //后台返回的验证码
+        enterpriseImage: '', //《企业注册证》或《商业许可证书》
+        evidenceImage: '', //其他证明材料 多张照片用,隔开
       }
     },
     components : {
       MassgeTop
     },
     methods: {
-      changeCount (adminPhone) {
-        var reg=/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;
-        if (!reg.test(this.adminPhone)){   //管理员手机号
-          this.$message.error('2错了哦，请输入正确的手机号');
-          this.isShowCode= true  //是否显示验证按钮
-          return
-        }
-        this.isShowCode= false //是否显示验证按钮
-      },
-
-      async clickCode () {   //请求手机验证码
-        const phone = this.adminPhone
-        const result =await reqCode({ //请求接口
-          phone,
-          type: 1
-        });
-        console.log(result)
-        if(result.code == 0){
-          this.isShowCode = true //是否显示验证按钮
-          this.resultCode = result.data
-          this.$message({
-            message: '获取成功',type: 'success'
-          });
-        }
-      },
       async fileImage1 (e) {      // 点击上传图片chenge事件
         // console.log(e)
         // 获取得到file 对象
@@ -194,15 +116,16 @@
 
         const result =await uploadAvatar( param , reqConfig)
         if(result.code == 0){
-          this.frontImage = result.data
+          this.enterpriseImage = result.data
         }else{
-          this.frontImage = ''
+          this.enterpriseImage = ''
         }
 
-        // console.log(result)
-        // 创建url
-        var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
-        this.$refs.inputeraa.src = imgUrl;
+
+        //这里使用的本地的图片
+        // var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
+        // this.$refs.inputeraa.src = imgUrl;
+
         // 更改img url 以后释放 url
         // this.$refs.inputeraa.onload = function() {  //图片加载完成触发回调
         // console.log('图片加载成功')
@@ -242,66 +165,41 @@
 
         const result =await uploadAvatar( param , reqConfig)
         if(result.code == 0){
-          this.backImage = result.data
+          this.evidenceImage = result.data
         }else{
-          this.backImage = ''
+          this.evidenceImage = ''
         }
-        // console.log(result)
-        // 创建url
-        var imgUrl = window.URL.createObjectURL(file)  //获取上传图片本地url
-        this.$refs.inputerbb.src = imgUrl;
-        // 更改img url 以后释放 url
-        // this.$refs.inputerbb.onload = function() {  //图片加载完成触发回调
-        // console.log('图片加载成功')
-        // URL.revokeObjectURL(imgUrl)
-        // }
       },
       next () {
+        //开始校验
+        console.log(this.enterpriseImage)
+        if (!this.enterpriseImage) { // 身份证正面照
+          this.$message.error('1错了哦，请上传身份证正面照');
+          return
+        }
+        console.log(this.evidenceImage)
 
-        console.log('开始校验')
-        if(!this.adminName){       //管理员名称
-          this.$message.error('1错了哦，请输入管理员名称');
-          return
-        }
-        //
-        if (!(this.code == this.resultCode) || !this.code) { // 验证码
-          this.$message.error('3错了哦，请输入正确的验证码');
-          return
-        }
-        //
-        if (!this.adminNumber) { // 证件号
-          this.$message.error('4错了哦，请输入正确的证件号');
-          return
-        }
-        console.log(this.frontImage)
-        if (!this.frontImage) { // 身份证正面照
-          this.$message.error('5错了哦，请上传身份证正面照');
-          return
-        }
-        if (!this.backImage) { // 身份证背面照
-          this.$message.error('6错了哦，请上传身份证背面照');
+        if (!this.evidenceImage) { // 身份证背面照
+          this.$message.error('2错了哦，请上传身份证背面照');
           return
         }
         console.log('通过校验')
-        //将用户信息储存到vuex中
-        // 校验成功保存到vuex中
-        const enterpriseAdmin = {
-          adminName: this.adminName, //管理员名称
-          adminPhone: this.adminPhone,//管理员手机号
-          adminNumber: this.adminNumber, //证件号
-          frontImage: this.frontImage,//身份证正面照,
-          backImage: this.backImage,  //身份证背面照
+        //保存到vuex中
+        const enterpriseInfo = {
+          enterpriseImage: this.enterpriseImage,//《企业注册证》或《商业许可证书》
+          evidenceImage: this.evidenceImage,    //其他证明材料 多张照片用,隔开
         }
-        this.$store.commit('admin',{enterpriseAdmin})//保存用户信息
-        this.$router.push('/basics')  //跳转路由
+
+        this.$store.commit('basics',{enterpriseInfo})//保存用户信息
+        this.$router.push('/defrayment')  //跳转路由
 
       },
       clickDelImg1(){
-        this.frontImage = '';          // 上传的地址清空
+        this.enterpriseImage = '';          // 上传的地址清空
         this.$refs.inputeraa.src = ''; //删除显示的图片
       },
       clickDelImg2(){
-        this.backImage = '';          // 上传的地址清空
+        this.evidenceImage = '';          // 上传的地址清空
         this.$refs.inputerbb.src = ''; //删除显示的图片
       },
     },
@@ -415,6 +313,7 @@
     }
   }
   .rider_name{
+    margin-bottom: 30px;
     .names{
       display: flex;
       .namesLeft{
@@ -466,10 +365,9 @@
   }
 </style>
 <style>
-  .nextBtn{
+  .basics{
     text-align: center;
-    margin-top: -20px;
-    padding-bottom: 50px;
+    padding: 30px 0 120px;
   }
   .nextBtn .btn{
     display: inline-block;
