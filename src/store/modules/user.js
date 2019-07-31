@@ -1,8 +1,5 @@
 // 用户模块
 
-import {USE_DATA} from "../mutation-types";
-// import {deleteUser, reqUser} from "../../api";
-
 const state = {
   phone: '',  //用户手机号
   pwd: '',
@@ -91,22 +88,7 @@ const mutations = {
 }
 
 const actions = {
-// 根据会话获取用户信息
-  async getUser({commit}){
-    const result = await reqUser()
-    if(result.code===0){
-      const user = result.data
-      commit(USE_DATA, user)
-    }
-  },
-//后台删除的session用户id  前台也清除用户信息
-  async deleUser({commit}){
-    const result = await deleteUser()
-    if(result.code===0){
-      const user = {}
-      commit(USE_DATA, user)
-    }
-  }
+
 }
 
 const getters = {

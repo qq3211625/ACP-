@@ -138,6 +138,8 @@
           phone : this.phone,       //手机号
           pwd : this.pwd,         //用户密码
         }
+        //手机号码保存到sessionStorage中,避免用户刷新在代注册中丢失
+        window.sessionStorage.setItem('phone',this.phone)
 
         if (verify.code == 0){
           //跳转路由

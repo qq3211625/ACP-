@@ -135,7 +135,7 @@
           invitationCode: this.invitationCode,  //邀请码
         }
         console.log(obj);
-        const result = await reqRegister(obj);
+        const result = await reqRegister(obj);  //发送请求
         if (result.code === 0) {
           // 成功
           this.loadingC = false;  //loading关闭
@@ -143,6 +143,7 @@
           const then = this;
           setTimeout(function () {
             then.succeed = false //关闭支付成功
+            then.$router.push('/impowerApp')//跳转页面
           },2000)
           this.$message({
             message: result.message,
@@ -157,6 +158,7 @@
               then.nothing = false //关闭支付失败
             },2000)
             this.$message.error(result.message);
+            return
           //跳转路由
         } else {
             this.loadingC = false;  //loading关闭
@@ -166,6 +168,7 @@
               then.nothing = false //关闭支付失败
             },2000)
             this.$message.error(result.message);
+            return
         }
       }
     },

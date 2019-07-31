@@ -22,7 +22,7 @@
           <img src="./images/123.jpg" alt="">
         </div>
         <div>
-          <el-button class="buttoms"  size="medium">代注册小程序</el-button>
+          <el-button class="buttoms" @click="$router.push('/business')"  size="medium">代注册小程序</el-button>
         </div>
         <div >
           <p>1, 填写审核资料</p>

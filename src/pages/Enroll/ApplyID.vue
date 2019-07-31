@@ -17,7 +17,7 @@
           <img src="./images/123.jpg" alt="">
         </div>
         <div class="textConten">
-          <p>使用公众平台绑定的管理员个人微信号扫描</p>
+          <p >使用公众平台绑定的管理员个人微信号扫描</p>
         </div>
       </div>
     </div>
@@ -101,6 +101,7 @@
     .textConten{
       text-align: center;
       margin-top: 5px;
+      font-size: 10px;
     }
    }
   .massge-top {

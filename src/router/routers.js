@@ -86,6 +86,6 @@ export default [
   {
     //自动跳转路由
     path:'/',
-    redirect: '/change'
+    redirect: '/login'
   }
 ]

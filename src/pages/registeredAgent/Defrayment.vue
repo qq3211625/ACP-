@@ -152,7 +152,7 @@
                 <div class="delImg">
                     <i class="el-icon-delete delI" @click="clickDelImg1"></i>
                 </div>
-                <img ref="inputeraa" :src="transferImage" height="300" alt="">transferImage
+                <img ref="inputeraa" :src="transferImage" height="300" alt="">
               </span>
               <input type="file" name="avata1r" id="avatar1" @change="fileImage1" accept=".jpg .jpeg .gif .png">
               <p class="namesComtentText">需要提供转款证明单以及转款时间<br>格式要求：支出.jpg .jpeg . gif .png格式照片，大小不超过5M。</p>
@@ -202,7 +202,7 @@
         </div>
         <div class="nextBtn">
           <el-button class="btn"  @click="$router.go(-1) ">上一步</el-button>
-          <el-button class="btn" type="primary" @click="next">下一步</el-button>
+          <el-button class="btn" type="primary" @click="open">提交认证</el-button>
         </div>
       </div>
     </div>
@@ -270,7 +270,6 @@
         }else{
           this.transferImage = ''
         }
-
       },
       async next () {
 
@@ -279,28 +278,31 @@
           this.$message.error('请上传图片');
           return
         }
-        if(!this.mailAddress){       //邮寄地址
-          this.$message.error('1错了哦，请输入邮寄地址');
-          return
+        if(this.radio == '1'){
+          if(!this.mailAddress){       //邮寄地址
+            this.$message.error('1错了哦，请输入邮寄地址');
+            return
+          }
+          //
+          if (!this.detailsAddress) { // 详情地址
+            this.$message.error('2错了哦，请输入正确详情地址');
+            return
+          }
+          //
+          if (!this.postalCode) { // 邮政编码
+            this.$message.error('3错了哦，请输入正确的邮政编码');
+            return
+          }
+          if (!this.contacts) { // 联系人
+            this.$message.error('4错了哦，联系人 ');
+            return
+          }
+          if (!this.telephone) { // 联系人电话
+            this.$message.error('6错了哦，请输入正确联系人电话');
+            return
+          }
         }
-        //
-        if (!this.detailsAddress) { // 详情地址
-          this.$message.error('2错了哦，请输入正确详情地址');
-          return
-        }
-        //
-        if (!this.postalCode) { // 邮政编码
-          this.$message.error('3错了哦，请输入正确的邮政编码');
-          return
-        }
-        if (!this.contacts) { // 联系人
-          this.$message.error('4错了哦，联系人 ');
-          return
-        }
-        if (!this.telephone) { // 联系人电话
-          this.$message.error('6错了哦，请输入正确联系人电话');
-          return
-        }
+
         console.log('通过校验')
         if(this.radio == '0'){
           this.type = 0
@@ -328,16 +330,20 @@
         const enterprise = this.enterprise
         const enterpriseAdmin = this.enterpriseAdmin
         const enterpriseInfo = this.enterpriseInfo
-        const phone = this.phone;   //这个是注册成功的手机号
+
+
+        const phone = window.sessionStorage.getItem('phone')//这个是注册成功的手机号,避免在代注册中刷新丢失
+
         // const phone = 13411343200;  //测试使用的已注册账号
         // 拿去vuex中的用户数据
         //发送请求
         const result =await enterpriseVo({enterprisePay, enterprise, enterpriseAdmin, enterpriseInfo, phone})
         console.log(result)
         if(result.code == 0){
-          // this.$router.push('/')  //跳转提交成功页面
+          this.$router.push('/Submit')  //成功后跳转到成功页面
         }else {
           this.$message.error(result.message);
+          return
         }
 
       },
@@ -345,6 +351,17 @@
         this.transferImage = '';          // 上传的地址清空
         this.$refs.inputeraa.src = ''; //删除显示的图片
       },
+      open() {
+        this.$confirm('二次确认', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确定',
+          center: true
+        }).then(() => {
+          this.next ()
+        }).catch(() => {
+
+        });
+      }
     },
     // mounted(){
     // },
