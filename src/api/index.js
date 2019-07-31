@@ -40,28 +40,5 @@ export const retrievePassword = ({password, phone}) => ajax(BASE + `/agent/retri
 
 
 
-//2获取食品分类列表
-export const reqCategory = () => ajax(BASE + '/index_category');
 
-// 3、根据经纬度获取商铺列表
-
-export const reqshops = ({latitude, longitude}) => ajax(BASE + '/shops', {latitude, longitude});
-                        // var {latitude, longitude} = {latitude:1,  longitude:2}
-                        // var obj={latitude1:1,  longitude:2}
-
-// 发送短信验证码 http://localhost:5000/sendcode?phone=13716962779
-export const securitycode  = ({phone:phone}) => ajax(BASE + '/sendcode', {phone:phone});
-
-//手机号验证码登陆  请求URL：http://localhost:5000/login_sms
-export const phonelogin = ({phone, code}) => ajax(BASE + '/login_sms', {phone, code}, "POST")
-
-// ### POST 请求URL：http://localhost:5000/login_pwd
-export const passlogin = ({name, pwd, captcha}) => ajax(BASE + '/login_pwd', {name, pwd, captcha}, "POST")
-
-//### 根据会话获取用户信息 http://localhost:5000/userinfo
-
-export const reqUser = () => ajax(BASE + '/userinfo');//免登陆
-
-//登出用户,删除cookie
-export const deleteUser = () => ajax(BASE + '/logout');//免登陆
 
